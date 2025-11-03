@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storytelling with Flourish - Keshika Arunkumar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            scroll-behavior: smooth;
+        }
+        
+        /* Header Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .navbar.show {
+            display: block;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+        }
+        
+        .nav-name {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #89216B;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 5px;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #DA4453;
+            background: rgba(218, 68, 83, 0.1);
+        }
+        
+        /* Home Page */
+        .home-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #89216B 0%, #DA4453 100%);
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .home-page h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .home-page h2 {
+            font-size: 2em;
+            margin-bottom: 50px;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+        
+        .explore-btn {
+            padding: 20px 50px;
+            font-size: 1.3em;
+            font-weight: 600;
+            background: white;
+            color: #89216B;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .explore-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        
+        /* Content Page */
+        .content-page {
+            display: none;
+            padding-top: 80px;
+            background: #f8f9fa;
+        }
+        
+        .content-page.show {
+            display: block;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        
+        .question-card {
+            background: white;
+            margin-bottom: 60px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            scroll-margin-top: 100px;
+        }
+        
+        .question-header {
+            background: linear-gradient(135deg, #D4A373 0%, #E8B87E 100%);
+            padding: 40px;
+            color: white;
+        }
+        
+        .question-number {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .question-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .question-intro {
+            font-size: 1.15em;
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+        
+        .viz-container {
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        
+        .flourish-embed {
+            width: 100%;
+            min-height: 600px;
+        }
+        
+        .content-section {
+            padding: 40px;
+        }
+        
+        .content-section h3 {
+            color: #89216B;
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .content-section h4 {
+            color: #DA4453;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+        
+        .content-section ul {
+            margin-left: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .content-section li {
+            font-size: 1.05em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+        
+        .content-section li strong {
+            color: #89216B;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #FFF5E6 0%, #FFE8D6 100%);
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 5px solid #DA4453;
+            margin: 30px 0;
+        }
+        
+        .highlight-box h4 {
+            color: #89216B;
+            margin-top: 0;
+        }
+        
+        /* View on Flourish Button */
+        .flourish-link-btn {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #89216B 0%, #DA4453 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(137, 33, 107, 0.3);
+        }
+        
+        .flourish-link-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(137, 33, 107, 0.4);
+        }
+        
+        .flourish-link-btn::after {
+            content: ' →';
+            margin-left: 5px;
+        }
+        
+        /* Different colors for each question */
+        #question1 .question-header {
+            background: linear-gradient(135deg, #D4A373 0%, #E8B87E 100%);
+        }
+        
+        #question2 .question-header {
+            background: linear-gradient(135deg, #4A90A4 0%, #5FA8BC 100%);
+        }
+        
+        #question3 .question-header {
+            background: linear-gradient(135deg, #2A7B9B 0%, #3498AB 100%);
+        }
+        
+        #question4 .question-header {
+            background: linear-gradient(135deg, #C27664 0%, #D48B7A 100%);
+        }
+        
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .footer p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            color: #89216B;
+            cursor: pointer;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .home-page h1 {
+                font-size: 2.5em;
+            }
+            
+            .home-page h2 {
+                font-size: 1.5em;
+            }
+            
+            .nav-container {
+                padding: 15px 20px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                gap: 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.show {
+                display: flex;
+            }
+            
+            .nav-links a {
+                padding: 15px 20px;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .question-title {
+                font-size: 1.8em;
+            }
+            
+            .content-section,
+            .question-header,
+            .viz-container {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar (Hidden on home page) -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-name">Keshika Arunkumar</div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" onclick="goHome()">Home</a></li>
+                <li><a href="#question1">Question 1</a></li>
+                <li><a href="#question2">Question 2</a></li>
+                <li><a href="#question3">Question 3</a></li>
+                <li><a href="#question4">Question 4</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Home Page -->
+    <div class="home-page" id="homePage">
+        <h1>Storytelling with Data</h1>
+        <h2>Assignment 5, Keshika Arunkumar</h2>
+        <button class="explore-btn" onclick="goToContent()">Explore Visualizations</button>
+    </div>
+    
+    <!-- Content Page (All Questions) -->
+    <div class="content-page" id="contentPage">
+        <div class="container">
+            <!-- Question 1 -->
+            <div class="question-card" id="question1">
+                <div class="question-header">
+                    <div class="question-number">Question 1</div>
+                    <h2 class="question-title">COVID-19 Vaccination Trends Analysis</h2>
+                    <p class="question-intro">This visualization presents a comprehensive analysis of COVID-19 vaccination progress across different regions and time periods. Using an interactive line chart, we can track the cumulative vaccination trends, compare regional performance, and identify key milestones in the global vaccination effort. The data encompasses multiple countries and territories, allowing for meaningful comparisons of vaccination rollout strategies and their effectiveness over time.</p>
+                </div>
+                
+                <div class="viz-container">
+                    <div class="flourish-embed flourish-chart" data-src="visualisation/25986695">
+                        <noscript><img src="https://public.flourish.studio/visualisation/25986695/thumbnail" width="100%" alt="chart visualization" /></noscript>
+                    </div>
+                    <a href="https://public.flourish.studio/visualisation/25986695/" target="_blank" class="flourish-link-btn">View on Flourish</a>
+                </div>
+                
+                <div class="content-section">
+                    <h3>Insights Obtained from the Visualization</h3>
+                    <ul>
+                        <li><strong>Regional Disparities:</strong> The visualization clearly reveals significant gaps in vaccination rates between developed and developing nations, highlighting global health equity challenges.</li>
+                        <li><strong>Vaccination Momentum:</strong> Sharp upward trends indicate periods of accelerated vaccination campaigns, often corresponding to increased vaccine availability and public health initiatives.</li>
+                        <li><strong>Plateau Effects:</strong> Some regions show flattening curves, suggesting either achievement of target vaccination rates or challenges in reaching hesitant populations.</li>
+                        <li><strong>Temporal Patterns:</strong> The data reveals seasonal variations and policy-driven surges in vaccination rates, particularly around the introduction of booster campaigns.</li>
+                        <li><strong>Comparative Performance:</strong> Countries with early access to vaccines and robust healthcare infrastructure demonstrate consistently higher vaccination rates throughout the timeline.</li>
+                    </ul>
+                    
+                    <h3>Alternate Visualization Ideas to Present This Information</h3>
+                    <p>While the line chart effectively shows trends over time, other visualization approaches could provide different perspectives:</p>
+                    <ul>
+                        <li><strong>Choropleth Map:</strong> A geographic visualization would immediately highlight regional disparities and help identify geographic clusters of high or low vaccination rates.</li>
+                        <li><strong>Small Multiples:</strong> Individual sparkline charts for each country would allow for simultaneous comparison while preserving individual trend details.</li>
+                        <li><strong>Slope Chart:</strong> Comparing start and end points would emphasize the total change in vaccination rates, making it easier to identify the biggest improvers.</li>
+                        <li><strong>Stacked Area Chart:</strong> This would show cumulative global progress while maintaining visibility of individual country contributions to the total.</li>
+                        <li><strong>Heatmap Calendar:</strong> A calendar-based heatmap could reveal weekly or monthly patterns and help identify specific dates of vaccination surges or drops.</li>
+                    </ul>
+                    
+                    <h3>What Are the Drawbacks of This Visualization</h3>
+                    <div class="highlight-box">
+                        <p><strong>Line Overlap:</strong> With multiple countries displayed simultaneously, overlapping lines can make it difficult to track individual countries, especially those with similar trends. This cluttering effect reduces readability when trying to focus on specific regions.</p>
+                        
+                        <p><strong>Population Context Missing:</strong> The visualization doesn't normalize for population size, making it challenging to compare vaccination coverage rates fairly between large and small countries. A country with 1 million vaccinations might represent 100% coverage in a small nation but only 10% in a larger one.</p>
+                        
+                        <p><strong>Data Density:</strong> The sheer volume of data points can overwhelm viewers, making it difficult to extract meaningful insights without interactive filtering capabilities.</p>
+                        
+                        <p><strong>Lack of Contextual Information:</strong> The chart doesn't show important contextual factors like vaccine availability dates, policy changes, or demographic breakdowns that would help explain the observed trends.</p>
+                        
+                        <p><strong>Color Coding Challenges:</strong> With many countries, distinguishing between similarly colored lines becomes problematic, particularly for users with color vision deficiencies.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 2 -->
+            <div class="question-card" id="question2">
+                <div class="question-header">
+                    <div class="question-number">Question 2</div>
+                    <h2 class="question-title">Daily Vaccination Progress Tracking</h2>
+                    <p class="question-intro">This visualization focuses on daily vaccination administration rates, providing a granular view of the vaccination campaign's day-to-day momentum. Unlike cumulative tracking, this perspective reveals the pace and consistency of vaccination efforts, highlighting periods of rapid deployment, slowdowns, and recovery. The daily data helps identify operational challenges, success patterns, and the impact of policy interventions on vaccination rates across different time periods and regions.</p>
+                </div>
+                
+                <div class="viz-container">
+                    <div class="flourish-embed flourish-chart" data-src="visualisation/25987217">
+                        <noscript><img src="https://public.flourish.studio/visualisation/25987217/thumbnail" width="100%" alt="chart visualization" /></noscript>
+                    </div>
+                    <a href="https://public.flourish.studio/visualisation/25987217/" target="_blank" class="flourish-link-btn">View on Flourish</a>
+                </div>
+                
+                <div class="content-section">
+                    <h3>Insights Obtained from the Visualization</h3>
+                    <ul>
+                        <li><strong>Operational Efficiency:</strong> Daily peaks and troughs reveal the operational capacity and efficiency of vaccination infrastructure, showing how systems handle high-volume days versus typical operations.</li>
+                        <li><strong>Weekly Patterns:</strong> The data likely shows consistent weekly cycles, with lower vaccination numbers on weekends, reflecting the operational schedules of vaccination centers.</li>
+                        <li><strong>Campaign Impact:</strong> Sudden spikes in daily vaccinations correspond to the launch of mass vaccination campaigns, mobile vaccination units, or the opening of new demographic eligibility groups.</li>
+                        <li><strong>Supply Chain Indicators:</strong> Periods of sustained low numbers may indicate vaccine supply shortages, while rapid increases suggest improved supply chain logistics.</li>
+                        <li><strong>Seasonal Variations:</strong> The visualization may reveal seasonal patterns, with higher vaccination rates during winter months when respiratory disease concerns are heightened.</li>
+                        <li><strong>Sustainability Concerns:</strong> The data helps assess whether high vaccination rates are sustainable or represent temporary surges that cannot be maintained long-term.</li>
+                    </ul>
+                    
+                    <h3>Alternate Visualization Ideas to Present This Information</h3>
+                    <p>Several alternative approaches could enhance understanding of daily vaccination patterns:</p>
+                    <ul>
+                        <li><strong>Moving Average Line:</strong> Adding a 7-day or 14-day moving average line would smooth out daily fluctuations and make underlying trends more visible while reducing noise from weekend effects.</li>
+                        <li><strong>Calendar Heatmap:</strong> A calendar-style heatmap would make day-of-week patterns immediately obvious and help identify specific dates or events that caused anomalies in vaccination numbers.</li>
+                        <li><strong>Bar Chart with Annotations:</strong> Daily bars with annotations for key events (policy changes, vaccine approvals, supply deliveries) would help explain observed variations in context.</li>
+                        <li><strong>Dual-Axis Chart:</strong> Combining daily vaccinations with cumulative progress on a dual-axis chart would show both pace and progress simultaneously.</li>
+                        <li><strong>Box Plot by Week:</strong> Weekly box plots would effectively communicate the typical range, median, and outliers for each week, making it easier to compare consistency across time periods.</li>
+                        <li><strong>Stream Graph:</strong> For multiple regions, a stream graph could show how the relative contribution of each region to total daily vaccinations changes over time.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Question 3 -->
+            <div class="question-card" id="question3">
+                <div class="question-header">
+                    <div class="question-number">Question 3</div>
+                    <h2 class="question-title">Geographic Distribution of Vaccination Coverage</h2>
+                    <p class="question-intro">This choropleth map visualization provides a spatial perspective on vaccination coverage, illustrating how vaccination rates vary across geographic regions. By color-coding areas based on vaccination completion rates, the map makes regional disparities immediately apparent and helps identify spatial patterns that might be missed in traditional chart formats. This geographic approach is particularly valuable for resource allocation decisions and identifying regions that may need additional support or intervention.</p>
+                </div>
+                
+                <div class="viz-container">
+                    <div class="flourish-embed flourish-map" data-src="visualisation/25987044">
+                        <noscript><img src="https://public.flourish.studio/visualisation/25987044/thumbnail" width="100%" alt="map visualization" /></noscript>
+                    </div>
+                    <a href="https://public.flourish.studio/visualisation/25987044/" target="_blank" class="flourish-link-btn">View on Flourish</a>
+                </div>
+                
+                <div class="content-section">
+                    <h3>Do You Agree with the Color Scheme Used?</h3>
+                    <p>I have used a binned color scheme. Should I use a continuous color scheme?</p>
+                    
+                    <div class="highlight-box">
+                        <h4>Assessment of the Binned Color Scheme</h4>
+                        <p>The binned color scheme you've implemented has several advantages for this type of data. It creates clear categorical distinctions that help viewers quickly identify regions falling into specific vaccination rate ranges (e.g., 0-20%, 20-40%, etc.). This approach reduces cognitive load because viewers can instantly categorize regions without needing to interpret subtle color gradations.</p>
+                        
+                        <h4>Advantages of Binned Approach:</h4>
+                        <ul>
+                            <li>Creates clear thresholds that may align with policy targets (e.g., 70% for herd immunity)</li>
+                            <li>Reduces visual complexity, making the map easier to read at a glance</li>
+                            <li>Facilitates grouping and comparison of regions in similar ranges</li>
+                            <li>More accessible for color-blind users when using distinct hues for each bin</li>
+                        </ul>
+                        
+                        <h4>When Continuous Would Be Better:</h4>
+                        <p>A continuous color scheme would be preferable if you need to show subtle differences within vaccination rate ranges. For instance, if policy decisions depend on precise percentages rather than broad categories, or if the data has many small variations that the bins might hide. However, continuous schemes can make it harder to compare non-adjacent regions and may require more careful color selection to ensure accessibility.</p>
+                        
+                        <p><strong>Recommendation:</strong> For public health communication and policy purposes, the binned approach you've chosen is likely more effective. Consider using 5-7 bins with colors that progress intuitively (light to dark, or cool to warm) to maintain both clarity and sufficient granularity.</p>
+                    </div>
+                    
+                    <h3>Tooltip Enhancement Suggestions</h3>
+                    <p>In the tooltip, I should include total population and completed vaccination.</p>
+                    
+                    <div class="highlight-box">
+                        <h4>Why These Additions Would Significantly Improve the Visualization:</h4>
+                        
+                        <p><strong>Total Population:</strong> This provides essential context for interpreting the percentages. A region with 80% vaccination coverage means very different things if the population is 100,000 versus 10 million. Including population helps viewers understand the scale and significance of the numbers.</p>
+                        
+                        <p><strong>Completed Vaccinations (Absolute Numbers):</strong> While percentages are useful for comparison, absolute numbers tell a different story. They reveal the actual number of people protected, which is crucial for understanding healthcare capacity needs and the real-world impact of vaccination efforts.</p>
+                        
+                        <h4>Additional Recommended Tooltip Elements:</h4>
+                        <ul>
+                            <li><strong>Partially Vaccinated Numbers:</strong> Shows people who have started but not completed their vaccination series</li>
+                            <li><strong>Daily/Weekly Change:</strong> Indicates whether vaccination rates are increasing or stagnating</li>
+                            <li><strong>Date of Last Update:</strong> Ensures users know the recency of the data</li>
+                            <li><strong>Regional Ranking:</strong> Shows how the region compares to others (e.g., "15th out of 50 regions")</li>
+                            <li><strong>Target Date:</strong> If applicable, when the region expects to reach vaccination goals</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 4 -->
+            <div class="question-card" id="question4">
+                <div class="question-header">
+                    <div class="question-number">Question 4</div>
+                    <h2 class="question-title">Vaccination Campaign Timeline: A Dynamic Race</h2>
+                    <p class="question-intro">This animated bar chart race visualization brings the vaccination campaign to life by showing how different countries' vaccination efforts evolved and competed over time. Unlike static visualizations, this dynamic format captures the dramatic shifts in vaccination leadership, the emergence of laggard regions, and the overall acceleration of global vaccination efforts. The racing bars create a compelling narrative that helps viewers understand not just the end result, but the journey of the vaccination campaign and the changing dynamics between nations as they responded to the pandemic.</p>
+                </div>
+                
+                <div class="viz-container">
+                    <div class="flourish-embed flourish-bar-chart-race" data-src="visualisation/25987764">
+                        <noscript><img src="https://public.flourish.studio/visualisation/25987764/thumbnail" width="100%" alt="bar-chart-race visualization" /></noscript>
+                    </div>
+                    <a href="https://public.flourish.studio/visualisation/25987764/" target="_blank" class="flourish-link-btn">View on Flourish</a>
+                </div>
+                
+                <div class="content-section">
+                    <h3>Conclusion and Impact</h3>
+                    
+                    <p>The bar chart race visualization reveals several critical insights about the global vaccination campaign. We observe that early vaccine access and robust healthcare infrastructure created significant advantages for wealthy nations, who dominated the early stages of the race. However, as vaccine supply expanded and knowledge sharing improved, we see middle-income countries making remarkable progress, with some surpassing initial leaders in vaccination rates relative to their populations.</p>
+                    
+                    <div class="highlight-box">
+                        <h4>Broader Impact and Implications</h4>
+                        
+                        <p><strong>Global Health Equity:</strong> The visualization starkly illustrates the vaccine equity gap that emerged during the pandemic. Countries that secured early vaccine contracts through purchasing power or manufacturing capacity achieved rapid vaccination rates, while others faced months of delay. This disparity has profound implications for future pandemic preparedness and highlights the need for more equitable global health systems.</p>
+                        
+                        <p><strong>Policy Effectiveness:</strong> The races and reversals in rankings demonstrate that initial advantages don't guarantee sustained success. Countries that implemented effective public health communication, streamlined distribution systems, and addressed vaccine hesitancy often overtook others with better initial access but weaker implementation.</p>
+                        
+                        <p><strong>Economic Recovery Correlation:</strong> The vaccination race directly correlates with economic recovery patterns. Countries that achieved high vaccination rates earlier were able to lift restrictions faster, resume international travel, and restart economic activities. The visualization thus tells a story not just of public health, but of economic resilience and recovery speed.</p>
+                        
+                        <p><strong>Future Pandemic Response:</strong> The patterns revealed by this visualization provide valuable lessons for future pandemic response. They highlight the importance of vaccine manufacturing capacity, international cooperation, equitable distribution mechanisms, and the critical role of logistics in translating vaccine availability into vaccinated populations.</p>
+                        
+                        <p><strong>Data Transparency Value:</strong> The very existence of this visualization depends on comprehensive data collection and sharing across nations. The gaps and inconsistencies in the data itself reveal challenges in global health monitoring and underscore the need for improved surveillance systems.</p>
+                    </div>
+                    
+                    <h4>Long-term Significance</h4>
+                    <p>This visualization serves as a historical record of one of humanity's most significant public health achievements—developing, distributing, and administering billions of vaccine doses in record time. It captures both the successes and failures of our global health system, providing a reference point for future pandemic preparedness planning. The dynamic format makes this complex story accessible to both policymakers and the general public, facilitating informed discussion about vaccine policy, health equity, and international cooperation.</p>
+                    
+                    <h4>Actionable Insights for Stakeholders</h4>
+                    <ul>
+                        <li><strong>For Policymakers:</strong> The visualization highlights the need for flexible, responsive vaccination strategies that can adapt to changing supply and demand conditions.</li>
+                        <li><strong>For Public Health Officials:</strong> It demonstrates the importance of maintaining vaccination momentum and addressing equity gaps within and between countries.</li>
+                        <li><strong>For International Organizations:</strong> The data underscores the critical role of global coordination mechanisms like COVAX and the need for their strengthening.</li>
+                        <li><strong>For Healthcare Systems:</strong> It validates the importance of investing in healthcare infrastructure and logistics capacity that can scale rapidly during emergencies.</li>
+                        <li><strong>For the Public:</strong> The visualization provides context for understanding ongoing vaccination efforts and the importance of maintaining high vaccination rates as new variants emerge.</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h4>Final Reflection</h4>
+                        <p>These four visualizations, when viewed together, tell a comprehensive story of the COVID-19 vaccination campaign from multiple perspectives—temporal trends, daily operations, geographic distribution, and competitive dynamics. They demonstrate the power of data visualization not just to present information, but to reveal patterns, prompt questions, and drive action. As we move forward in managing COVID-19 and preparing for future health challenges, these visual narratives will remain valuable tools for understanding what worked, what didn't, and how we can do better next time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2025 Keshika Arunkumar | Storytelling with Data - Assignment 5</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Northeastern University</p>
+        </div>
+    </div>
+    
+    <script src="https://public.flourish.studio/resources/embed.js"></script>
+    <script>
+        function goToContent() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('contentPage').classList.add('show');
+            document.getElementById('navbar').classList.add('show');
+            window.scrollTo(0, 0);
+        }
+        
+        function goHome() {
+            document.getElementById('contentPage').classList.remove('show');
+            document.getElementById('navbar').classList.remove('show');
+            document.getElementById('homePage').style.display = 'flex';
+            window.scrollTo(0, 0);
+        }
+        
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('show');
+        }
+        
+        // Update active nav link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.question-card');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
